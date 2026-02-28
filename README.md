@@ -36,9 +36,9 @@ input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;mar
 
 <!-- HOME -->
 <div id="home" class="container">
-<h2>Welcome to Clasique Boutique</h2>
-<p>Your one-stop online shop for quality products. Browse our products, add to cart, and checkout using M-Pesa or Card payments.</p>
-<p>Users only register or login when they want to place an order.</p>
+  <h2>Welcome to Clasique Boutique</h2>
+  <img src="https://i.imgur.com/7qlUwvB.jpg" alt="Boutique Interior" style="width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin-bottom:15px;">
+  <p>Browse products, add to cart, and checkout easily. Register only when placing an order.</p>
 </div>
 
 <!-- LOGIN -->
@@ -61,7 +61,7 @@ input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;mar
 <div id="dashboard" class="container" style="display:none">
 <h2 id="dashboardTitle">Dashboard</h2>
 
-<!-- ADMIN SECTION -->
+<!-- ADMIN -->
 <div id="adminSection" style="display:none">
 <h3>Add Product</h3>
 <input type="text" id="productName" placeholder="Product Name">
@@ -73,20 +73,13 @@ input,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;mar
 <div id="productsContainer" class="products-grid"></div>
 </div>
 
-<!-- USER SECTION -->
+<!-- USER -->
 <div id="userSection" style="display:none">
 <h3>Products</h3>
 <div id="productsContainerUser" class="products-grid"></div>
 
 <h3>Shopping Cart</h3>
 <div id="cartContainer"></div>
-</div>
-
-<!-- CONTACT INFO -->
-<div style="margin-top:30px;text-align:center;">
-<h3>Contact Us</h3>
-<p>Phone: 0748617221</p>
-<p>Email: <a href="mailto:gathunguadams@gmail.com">gathunguadams@gmail.com</a></p>
 </div>
 
 <footer>
@@ -99,15 +92,16 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-// Firebase Config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET.appspot.com",
-  messagingSenderId: "YOUR_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD_QwQycHQuDXEeaEtS19bakyI85DCiFkU",
+  authDomain: "clasique-botique.firebaseapp.com",
+  projectId: "clasique-botique",
+  storageBucket: "clasique-botique.firebasestorage.app",
+  messagingSenderId: "810557928750",
+  appId: "1:810557928750:web:3d788311afdeba4014b6bf",
+  measurementId: "G-SDJ1XMRJ9H"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -182,12 +176,10 @@ window.addProduct = async function(){
   const price = Number(document.getElementById("productPrice").value);
   const fileInput = document.getElementById("productFile");
   if(!name||!price||!fileInput.files[0]) return alert("Fill all fields.");
-
   const file = fileInput.files[0];
   const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
   await uploadBytes(storageRef, file);
   const imageUrl = await getDownloadURL(storageRef);
-
   await addDoc(collection(db,"products"),{name,price,image:imageUrl});
   alert("Product added");
   loadProductsAdmin();
@@ -261,7 +253,6 @@ window.removeFromCart = function(index){
   localStorage.setItem("cart",JSON.stringify(cart));
   loadCart();
 };
-
 </script>
 
 </body>
